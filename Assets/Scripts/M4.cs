@@ -30,7 +30,7 @@ public class M4 : MonoBehaviour
         {
             nextFire = Time.time + fireRate;
            var instance= Instantiate(bullet, shotSpawn.position, shotSpawn.rotation);
-            instance.GetComponent<Rigidbody>().AddForce(transform.forward*500, ForceMode.Force);
+            instance.GetComponent<Rigidbody>().AddForce(transform.forward*instance.GetComponent<Bullet>().bullet_speed, ForceMode.Force);
         }
     }
 

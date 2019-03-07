@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     public Animator animator;
 
     private Vector3 desiredVelocity;
+    private bool isDead;
+    private Collider[] collisionCheck;
     // Use this for initialization
     void Start()
     {
@@ -24,11 +26,28 @@ public class Enemy : MonoBehaviour
         Vector3 input = transform.InverseTransformDirection(desiredVelocity);
         animator.SetFloat("Horizontal", input.x);
         animator.SetFloat("Vertical", input.z);
+
+        if (isDead)
+        {
+            
+            gameObject.SetActive(false);
+            Vector3 newPosition =new Vector3(Random.Range(-11, 7), transform.position.y, Random.Range(-11, 5));
+            collisionCheck = Physics.OverlapSphere(target.transform.position, 3);
+            foreach (var colliderObject in collisionCheck)
+            {
+                if (colliderObject.tag == "Player")
+                {
+                    return;
+                }
+            }
+           gameObject.transform.position = 
+            gameObject.SetActive(true);
+        }
     }
 
     private void OnAnimatorMove()
     {
-        
+
         navMeshAgent.velocity = animator.velocity;
     }
 }

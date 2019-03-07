@@ -5,11 +5,8 @@ using UnityEngine.Events;
 using System;
 public class Health : MonoBehaviour
 {
-  
 
-    [Serializable] class MyEvent : UnityEvent<string, GameObject> { }
-
-    public MyEvent EVENT<gameObject>();
+    public UnityEvent OnHeal;
     public void OnDamage()
     {
 
