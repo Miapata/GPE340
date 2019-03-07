@@ -7,9 +7,8 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent navMeshAgent;
     public GameObject target;
     public Animator animator;
-
+    public bool isDead;
     private Vector3 desiredVelocity;
-    private bool isDead;
     private Collider[] collisionCheck;
     // Use this for initialization
     void Start()
@@ -32,16 +31,23 @@ public class Enemy : MonoBehaviour
             
             gameObject.SetActive(false);
             Vector3 newPosition =new Vector3(Random.Range(-11, 7), transform.position.y, Random.Range(-11, 5));
-            collisionCheck = Physics.OverlapSphere(target.transform.position, 3);
+            collisionCheck = Physics.OverlapSphere(target.transform.position, 5);
             foreach (var colliderObject in collisionCheck)
             {
                 if (colliderObject.tag == "Player")
                 {
+                    Debug.Log("In player's radius");
                     return;
                 }
+                else
+                {
+                    gameObject.transform.position = newPosition;
+                    gameObject.SetActive(true);
+                    isDead = false;
+                }
             }
-           gameObject.transform.position = 
-            gameObject.SetActive(true);
+           
+            
         }
     }
 

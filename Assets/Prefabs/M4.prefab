@@ -307,4 +307,6 @@ MonoBehaviour:
   rHand: {fileID: 1271850201857944}
   shotSpawn: {fileID: 4049542971052344}
   bullet: {fileID: 1162365520430700, guid: d26442d06c628f74da3797247c4a1982, type: 2}
-  fireRate: 0.27
+  spread: 1.4
+  fireRate: 0.08
+  muzzleVelocity: 122.8

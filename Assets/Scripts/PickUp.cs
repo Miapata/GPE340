@@ -19,8 +19,11 @@ public class PickUp : MonoBehaviour
 
         if (collider != null)
         {
-            print("Player detected");
-            OnPickUp(collider.gameObject);
+            if (collider.tag == "Player")
+            {
+                print("Player detected");
+                OnPickUp(collider.gameObject);
+            }
         }
         else
         {
@@ -59,8 +62,8 @@ public class PickUp : MonoBehaviour
                 break;
 
             case PickupsManager.Items.Health:
-                Instantiate(PickupsManager.instance.health,player.transform);
-               
+                Instantiate(PickupsManager.instance.health, player.transform);
+
                 break;
         }
 

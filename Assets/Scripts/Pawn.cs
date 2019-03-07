@@ -36,6 +36,7 @@ public class Pawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Jump();
         Run();
     }
 
@@ -119,6 +120,16 @@ public class Pawn : MonoBehaviour
         else if (Input.GetMouseButtonUp(1))
         {
             anim.SetBool("Aim", false);
+        }
+    }
+
+    void Jump()
+    {
+        //If our space is down, then we want to jump
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("Jump animation");
+            anim.SetTrigger("Jump");
         }
     }
 }

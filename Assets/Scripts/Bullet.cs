@@ -16,11 +16,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            GameObject player = other.GetComponent<Enemy>().target;
-            other.gameObject.SetActive(false);
-            Vector3 newPosition = new Vector3(Random.Range(-11, 7), transform.position.y, Random.Range(-11, 5));
-            other.gameObject.transform.position =
-            other.gameObject.SetActive(true);
+            other.GetComponent<Enemy>().isDead = true;
         }
     }
 }

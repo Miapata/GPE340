@@ -22,8 +22,8 @@ public class Sword : MonoBehaviour
 
     void Attack()
     {
-        
-        
-        pawn.anim.SetTrigger("Attack");
+
+
+        pawn.anim.Play("Sword Swing");
     }
 }
