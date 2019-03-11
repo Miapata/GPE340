@@ -30,7 +30,7 @@ public class CharacterController : MonoBehaviour
         float distance;
         Ray theRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         thePlane.Raycast(theRay, out distance);
-
+        //Jesus Christ
         // Find a point on the ray that is "distance" down the ray
         Vector3 targetPoint = theRay.GetPoint(distance);
 
@@ -51,8 +51,10 @@ public class CharacterController : MonoBehaviour
         pawn.Move(moveDirection);
     }
 
-  
-  
+
+
+
+
 
 
 }

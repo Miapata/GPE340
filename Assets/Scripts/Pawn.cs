@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 public class Pawn : MonoBehaviour
 {
-    [HideInInspector] public Animator anim;
+    public Animator anim;
     [HideInInspector] public Transform tf;
     [Header("Health")]
 
@@ -23,11 +23,16 @@ public class Pawn : MonoBehaviour
     [Header("Health Text")]
     public TextMeshProUGUI healthText;
 
+    public bool isPlayer;
 
     // Use this for initialization
     void Start()
     {
-        healthText.text = "Health: " + health.ToString();
+        if (isPlayer)
+        {
+            healthText.text = "Health: " + health.ToString();
+        }
+
         anim = GetComponent<Animator>();
         tf = GetComponent<Transform>();
 
@@ -36,8 +41,15 @@ public class Pawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Jump();
-        Run();
+        if (isPlayer)
+        {
+            Jump();
+            Run();
+        }
+        else
+        {
+
+        }
     }
 
 
@@ -130,6 +142,14 @@ public class Pawn : MonoBehaviour
         {
             Debug.Log("Jump animation");
             anim.SetTrigger("Jump");
+        }
+    }
+
+    void Missle()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+
         }
     }
 }

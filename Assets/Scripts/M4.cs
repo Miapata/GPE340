@@ -11,6 +11,9 @@ public class M4 : MonoBehaviour
     public float spread;
     public float fireRate;
     public float muzzleVelocity;
+    public int burstAmount;
+    public bool burst;
+
     float nextFire;
     // Use this for initialization
     void Start()
@@ -32,8 +35,19 @@ public class M4 : MonoBehaviour
         if (Input.GetMouseButton(0) && Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
-            var instance = Instantiate(bullet, shotSpawn.position, shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
-            instance.GetComponent<Rigidbody>().AddRelativeForce(Vector3.left * muzzleVelocity, ForceMode.VelocityChange);
+            if (burst)
+            {
+                for (int i = 0; i < burstAmount; i++)
+                {
+                    Fire();
+                }
+            }
+            else
+            {
+                Fire();
+            }
+            
+            
 
 
         }
@@ -41,6 +55,7 @@ public class M4 : MonoBehaviour
 
     void Fire()
     {
-
+        var instance = Instantiate(bullet, shotSpawn.position, shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
+        instance.GetComponent<Rigidbody>().AddRelativeForce(Vector3.left * muzzleVelocity, ForceMode.VelocityChange);
     }
 }

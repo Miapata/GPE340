@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent navMeshAgent;
     public GameObject target;
     public Animator animator;
+    public float speed;
     public bool isDead;
     private Vector3 desiredVelocity;
     private Collider[] collisionCheck;
@@ -20,9 +21,14 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        navMeshAgent.SetDestination(target.transform.position);
+        //Jesus Christ Jesus Christ Jesus Christ 
+        if (navMeshAgent.isActiveAndEnabled == true)
+        {
+            
+            navMeshAgent.SetDestination(target.transform.position);
+        }
         desiredVelocity = Vector3.MoveTowards(desiredVelocity, navMeshAgent.desiredVelocity, navMeshAgent.acceleration * Time.deltaTime);
-        Vector3 input = transform.InverseTransformDirection(desiredVelocity);
+        Vector3 input = transform.InverseTransformDirection(desiredVelocity*speed);
         animator.SetFloat("Horizontal", input.x);
         animator.SetFloat("Vertical", input.z);
 
@@ -50,7 +56,7 @@ public class Enemy : MonoBehaviour
             
         }
     }
-
+    //Jesus Christ
     private void OnAnimatorMove()
     {
 

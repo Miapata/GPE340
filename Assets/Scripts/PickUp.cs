@@ -19,8 +19,9 @@ public class PickUp : MonoBehaviour
 
         if (collider != null)
         {
-            if (collider.tag == "Player")
+            if (collider.tag == "Player"||collider.tag=="Enemy")
             {
+                //Jesus Christ
                 print("Player detected");
                 OnPickUp(collider.gameObject);
             }

@@ -101,7 +101,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!96 &96895452654739258
 TrailRenderer:
   serializedVersion: 2
@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997ac7d9220596e43b7a42d211db55ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet_speed: 3000
+  bullet_speed: 5.6
 --- !u!135 &135846023089078192
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -213,8 +213,8 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1162365520430700}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.8
   m_Center: {x: 0, y: 0, z: 0}

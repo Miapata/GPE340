@@ -12,11 +12,13 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 1);
     }
 
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy")
         {
-            other.GetComponent<Enemy>().isDead = true;
+            collision.gameObject.GetComponent<RagdollControls>().StartCoroutine("DieEffect");
         }
+
     }
 }
