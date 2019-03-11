@@ -1398,9 +1398,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 333797750}
-  maxAngle: 11.82
+  maxAngle: 50
   maxRadius: 7.89
   heightMultiplayer: 0
+  isInFov: 0
 --- !u!1 &498959115
 GameObject:
   m_ObjectHideFlags: 0

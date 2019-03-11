@@ -32,30 +32,34 @@ public class M4 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0) && Time.time > nextFire)
+        if (Input.GetMouseButton(0))
         {
-            nextFire = Time.time + fireRate;
-            if (burst)
-            {
-                for (int i = 0; i < burstAmount; i++)
-                {
-                    Fire();
-                }
-            }
-            else
-            {
-                Fire();
-            }
-            
-            
+
+
+            Fire();
 
 
         }
     }
 
-    void Fire()
+    public void Fire()
     {
-        var instance = Instantiate(bullet, shotSpawn.position, shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
-        instance.GetComponent<Rigidbody>().AddRelativeForce(Vector3.left * muzzleVelocity, ForceMode.VelocityChange);
+        if (!(Time.time > nextFire))
+            return;
+        if (burst)
+        {
+            for (int i = 0; i < burstAmount; i++)
+            {
+                var instance = Instantiate(bullet, shotSpawn.position, shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
+                instance.GetComponent<Rigidbody>().AddRelativeForce(Vector3.left * muzzleVelocity, ForceMode.VelocityChange);
+                nextFire = Time.time + fireRate;
+            }
+        }
+        else
+        {
+            var instance = Instantiate(bullet, shotSpawn.position, shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
+            instance.GetComponent<Rigidbody>().AddRelativeForce(Vector3.left * muzzleVelocity, ForceMode.VelocityChange);
+            nextFire = Time.time + fireRate;
+        }
     }
 }

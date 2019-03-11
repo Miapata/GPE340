@@ -2398,6 +2398,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   speed: 2.97
   isDead: 0
+  equppiedItem: 0
 --- !u!135 &135530995704713604
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -310,5 +310,5 @@ MonoBehaviour:
   spread: 5.3
   fireRate: 0.08
   muzzleVelocity: 51.77
-  burstAmount: 19
-  burst: 1
+  burstAmount: 4
+  burst: 0

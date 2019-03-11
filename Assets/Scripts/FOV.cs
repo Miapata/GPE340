@@ -9,7 +9,7 @@ public class FOV : MonoBehaviour
     public float maxAngle;
     public float maxRadius;
     public float heightMultiplayer;
-    private bool isInFov = false;
+   public bool isInFov = false;
 
     private void OnDrawGizmos()
     {
