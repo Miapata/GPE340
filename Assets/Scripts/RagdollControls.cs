@@ -54,7 +54,7 @@ public class RagdollControls : MonoBehaviour
         {
             rb.isKinematic = false;
         }
-        // Turn on all the child coliders 
+        // Turn on all the child colliders 
         foreach (Collider col in partColliders)
         {
             col.enabled = true;
@@ -98,6 +98,7 @@ public class RagdollControls : MonoBehaviour
         hips.transform.position = new Vector3(0, 0, 0);
 
         DeactivateRagdoll();
+        if(tag=="Enemy")
         GetComponent<Enemy>().isDead = true;
     }
 

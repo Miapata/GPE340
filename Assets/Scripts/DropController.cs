@@ -1,39 +1,36 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements;
+using Object = System.Object;
 using Random = UnityEngine.Random;
 
+[CustomPropertyDrawer(typeof(WeightedObject))]
 public class DropController : MonoBehaviour
 {
-    public List<WeightedDrop> dropTable;
+    public List<WeightedObject> dropTable;
 
     [Serializable]
-    public class WeightedDrop
+    public class WeightedObject
     {
-        public GameObject dropObject;
+        public Object value;
         public float weight;
     }
-    // Use this for initialization
-    void Start()
-    {
 
+    public void DropItem()
+    {
+       
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public GameObject GetRandomItem()
+    public Object Select()
     {
         List<float> CDFArray = new List<float>();
         int index = 0;
         float total = 0;
 
-        foreach (WeightedDrop drop in dropTable)
+        foreach (WeightedObject drop in dropTable)
         {
             total = total + dropTable[index].weight;
             CDFArray.Add(total);
@@ -48,8 +45,8 @@ public class DropController : MonoBehaviour
         {
             selectedIndex = ~selectedIndex;
         }
-        
 
-        return dropTable[selectedIndex].dropObject;
+
+        return dropTable[selectedIndex].value;
     }
 }

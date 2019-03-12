@@ -89,16 +89,19 @@ public class Enemy : MonoBehaviour
             switch (equppiedItem)
             {
                 case PickupsManager.Items.M4:
-                    NewMethod();
+                    
+                    Fire();
                     break;
-
+                case PickupsManager.Items.Sword:
+                    animator.Play("Attack_Sword");
+                    break;
                 default:
                     break;
             }
         }
     }
 
-    private void NewMethod()
+    private void Fire()
     {
         pawn.equppiedItem.GetComponent<M4>().Fire();
     }

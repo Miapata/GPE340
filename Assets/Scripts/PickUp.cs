@@ -19,7 +19,7 @@ public class PickUp : MonoBehaviour
 
         if (collider != null)
         {
-            if (collider.tag == "Player"||collider.tag=="Enemy")
+            if (collider.tag == "Player" || collider.tag == "Enemy")
             {
                 //Jesus Christ
                 print("Player detected");
@@ -68,6 +68,8 @@ public class PickUp : MonoBehaviour
                 break;
         }
 
+        if (player.tag == "Enemy")
+            player.GetComponent<Enemy>().equppiedItem = item;
         Destroy(gameObject);
 
 

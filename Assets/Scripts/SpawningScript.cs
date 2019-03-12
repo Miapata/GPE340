@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spawn : MonoBehaviour
+public class SpawningScript : MonoBehaviour
 {
     public GameObject enemy;
     public GameObject player;
     public Queue<GameObject> enemyList = new Queue<GameObject>();
+
+    public bool autoSpawn;
     // Use this for initialization
     void Start()
     {
@@ -20,19 +22,34 @@ public class Spawn : MonoBehaviour
     void Update()
     {
         RemoveEnemy();
-        SpawnEnemy();
+        Spawn();
 
 
     }
 
     void SpawnEnemy()
     {
+
+        GameObject instance = Instantiate(enemy, new Vector3(Random.Range(-11, 7), enemy.transform.position.y, Random.Range(-11, 5)), Quaternion.identity);
+        instance.GetComponent<Enemy>().target = player;
+        enemyList.Enqueue(instance);
+
+    }
+
+    void Spawn()
+    {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject instance = Instantiate(enemy, new Vector3(Random.Range(-11, 7), enemy.transform.position.y, Random.Range(-11, 5)), Quaternion.identity);
-            instance.GetComponent<Enemy>().target = player;
-            enemyList.Enqueue(instance);
+            SpawnEnemy();
         }
+
+        if (autoSpawn)
+            print(enemyList.Count);
+            if (enemyList.Count < 5)
+            {
+                print("Spawned");
+                SpawnEnemy();
+            }
     }
 
     void RemoveEnemy()
