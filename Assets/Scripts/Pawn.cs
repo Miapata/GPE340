@@ -8,9 +8,7 @@ public class Pawn : MonoBehaviour
 {
     public Animator anim;
     [HideInInspector] public Transform tf;
-    [Header("Health")]
 
-    public float health = 100;
     [Header("Movement")]
     public float turnSpeed;
     public float moveSpeed;
@@ -20,18 +18,16 @@ public class Pawn : MonoBehaviour
     public Transform RHPoint;
     public Transform LHPoint;
 
-    [Header("Health Text")]
-    public TextMeshProUGUI healthText;
+    [Header("Health Bar")]
+    public Image healthbarImage;
 
     public bool isPlayer;
 
+    private bool missileMode;
     // Use this for initialization
     void Start()
     {
-        if (isPlayer)
-        {
-            healthText.text = "Health: " + health.ToString();
-        }
+     
 
         anim = GetComponent<Animator>();
         tf = GetComponent<Transform>();
@@ -45,6 +41,7 @@ public class Pawn : MonoBehaviour
         {
             Jump();
             Run();
+            Missle();
         }
         else
         {
@@ -61,6 +58,7 @@ public class Pawn : MonoBehaviour
 
     public void RotateTowards(Vector3 targetPoint)
     {
+      
         Vector3 vectorToLookDown = targetPoint - tf.position;
         Quaternion lookRotation = Quaternion.LookRotation(vectorToLookDown, tf.up);
         tf.rotation = Quaternion.RotateTowards(tf.rotation, lookRotation, turnSpeed * Time.deltaTime);
@@ -147,9 +145,11 @@ public class Pawn : MonoBehaviour
 
     void Missle()
     {
+        ;
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-
+            missileMode = true;
+            Instantiate(GameManager.instance.missile, GameManager.instance.nukeTarget, GameManager.instance.missile.transform.rotation);
         }
     }
 }

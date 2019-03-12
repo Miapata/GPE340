@@ -9,8 +9,12 @@ public class FOV : MonoBehaviour
     public float maxAngle;
     public float maxRadius;
     public float heightMultiplayer;
-   public bool isInFov = false;
+    public bool isInFov = false;
 
+    public void Start()
+    {
+        player = GameManager.instance.player.transform;
+    }
     private void OnDrawGizmos()
     {
 
@@ -64,14 +68,14 @@ public class FOV : MonoBehaviour
 
         if (isInFov)
         {
-           
+
         }
 
     }
 
-    
 
-    
+
+
 
 
 }

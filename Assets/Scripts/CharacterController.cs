@@ -34,11 +34,12 @@ public class CharacterController : MonoBehaviour
         // Find a point on the ray that is "distance" down the ray
         Vector3 targetPoint = theRay.GetPoint(distance);
 
+        Vector3 offset = Vector3.up * 0.1f;
         // TEMP: Move a test object to that point
-        testObject.position = targetPoint;
-
-        // Rotate to look at that point
-        pawn.RotateTowards(targetPoint);
+        GameManager.instance.nukeTarget = targetPoint + offset;
+        testObject.position = GameManager.instance.nukeTarget;
+        //// Rotate to look at that point
+        pawn.RotateTowards(targetPoint+offset);
     }
 
     void Movement()

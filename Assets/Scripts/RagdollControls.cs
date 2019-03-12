@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RagdollControls : MonoBehaviour {
+public class RagdollControls : MonoBehaviour
+{
 
     public GameObject objectToApplyRagdoll;
     // Things to turn off when we ragdoll, on when normal
@@ -14,9 +15,11 @@ public class RagdollControls : MonoBehaviour {
     // Things to turn on when ragdoll, off when normal
     public List<Rigidbody> partRigidbodies;
     public List<Collider> partColliders;
-
-	// Use this for initialization
-	void Start () {
+    public Canvas canvas;
+    public GameObject hips;
+    // Use this for initialization
+    void Start()
+    {
         mainCollider = objectToApplyRagdoll.GetComponent<Collider>();
         anim = objectToApplyRagdoll.GetComponent<Animator>();
         mainRigidbody = objectToApplyRagdoll.GetComponent<Rigidbody>();
@@ -25,13 +28,14 @@ public class RagdollControls : MonoBehaviour {
         partRigidbodies = new List<Rigidbody>(objectToApplyRagdoll.GetComponentsInChildren<Rigidbody>());
         partColliders = new List<Collider>(objectToApplyRagdoll.GetComponentsInChildren<Collider>());
 
-        // Deactivate the Ragdoll
         DeactivateRagdoll();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (Input.GetKeyDown(KeyCode.P))
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
         {
             ActivateRagdoll();
         }
@@ -39,10 +43,12 @@ public class RagdollControls : MonoBehaviour {
         {
             DeactivateRagdoll();
         }
-	}
+    }
 
-    public void ActivateRagdoll ()
+    public void ActivateRagdoll()
     {
+        
+        canvas.enabled = false;
         // Turn on all the child rigidbodies
         foreach (Rigidbody rb in partRigidbodies)
         {
@@ -54,14 +60,19 @@ public class RagdollControls : MonoBehaviour {
             col.enabled = true;
         }
         // Turn OFF the main stuff
-        mainCollider.enabled = false;
-        mainRigidbody.isKinematic = true;
+
+
         anim.enabled = false;
         agent.enabled = false;
+        mainCollider.enabled = true;
+        mainRigidbody.isKinematic = false;
+
     }
 
     public void DeactivateRagdoll()
     {
+       
+        canvas.enabled = true;
         // Turn OFF the ragdoll colliders
         foreach (Collider col in partColliders)
         {
@@ -81,11 +92,14 @@ public class RagdollControls : MonoBehaviour {
     //Jesus Christ 
     public IEnumerator DieEffect()
     {
+
         ActivateRagdoll();
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(Random.Range(5.0f,7.0f));
+        hips.transform.position = new Vector3(0, 0, 0);
+
         DeactivateRagdoll();
         GetComponent<Enemy>().isDead = true;
     }
 
-    
+
 }

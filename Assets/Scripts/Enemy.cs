@@ -3,24 +3,32 @@ using System.Collections.Generic;
 using Boo.Lang.Environments;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
+
 public class Enemy : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public GameObject target;
     public Animator animator;
+
     public float speed;
     public bool isDead;
     public PickupsManager.Items equppiedItem;
     private Vector3 desiredVelocity;
     private Collider[] collisionCheck;
-
+    private Health health;
     private Pawn pawn;
+
+    private HealthEvents healthEvents;
     // Use this for initialization
     void Start()
     {
+        healthEvents = GetComponent<HealthEvents>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         pawn = GetComponent<Pawn>();
+        //Get the health component
+        health = GetComponent<Health>();
     }
 
     // Update is called once per frame
@@ -39,9 +47,10 @@ public class Enemy : MonoBehaviour
 
         if (isDead)
         {
-
+            health.health = 1;
+            healthEvents.OnSpawn.Invoke();
             gameObject.SetActive(false);
-            Vector3 newPosition = new Vector3(Random.Range(-11, 7), transform.position.y, Random.Range(-11, 5));
+            Vector3 newPosition = new Vector3(Random.Range(-11, 7), 0, Random.Range(-11, 5));
             collisionCheck = Physics.OverlapSphere(target.transform.position, 5);
             foreach (var colliderObject in collisionCheck)
             {
@@ -72,9 +81,10 @@ public class Enemy : MonoBehaviour
 
     void Attack()
     {
-        if (!GetComponent<FOV>().isInFov)
-            return;
-        if (GetComponent<Pawn>().weaponPlacementPoint.GetChild(0) != null)
+        if (GetComponent<FOV>() != null)
+            if (!GetComponent<FOV>().isInFov || GetComponent<Pawn>().weaponPlacementPoint.childCount == 0)
+                return;
+        if (GetComponent<Pawn>().weaponPlacementPoint.GetChild(0))
         {
             switch (equppiedItem)
             {

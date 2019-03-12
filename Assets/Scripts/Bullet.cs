@@ -17,7 +17,11 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            collision.gameObject.GetComponent<RagdollControls>().StartCoroutine("DieEffect");
+            if (collision.gameObject.GetComponent<RagdollControls>() == null)
+                return;
+            print("Damaging enemy");
+            collision.gameObject.GetComponent<HealthEvents>().damage = 0.1f;
+            collision.gameObject.GetComponent<HealthEvents>().OnDamage.Invoke();
         }
 
     }
