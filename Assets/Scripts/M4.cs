@@ -13,11 +13,17 @@ public class M4 : MonoBehaviour
     public float muzzleVelocity;
     public int burstAmount;
     public bool burst;
+    public float reloadTime;
 
+    public int magazineSize;
+    private int count;
+    private bool reloading;
     float nextFire;
     // Use this for initialization
     void Start()
     {
+        count = magazineSize;
+        TextChange();
 
         Pawn pawn = transform.parent.GetComponent<Pawn>();
         if (pawn != null)
@@ -32,14 +38,15 @@ public class M4 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
+        if (transform.root.tag == "Player")
+            if (Input.GetMouseButton(0))
+            {
 
 
-            Fire();
+                Fire();
 
 
-        }
+            }
     }
 
     public void Fire()
@@ -50,16 +57,53 @@ public class M4 : MonoBehaviour
         {
             for (int i = 0; i < burstAmount; i++)
             {
-                var instance = Instantiate(bullet, shotSpawn.position, shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
-                instance.GetComponent<Rigidbody>().AddRelativeForce(Vector3.left * muzzleVelocity, ForceMode.VelocityChange);
-                nextFire = Time.time + fireRate;
+                ShootBullet();
             }
         }
         else
         {
-            var instance = Instantiate(bullet, shotSpawn.position, shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
-            instance.GetComponent<Rigidbody>().AddRelativeForce(Vector3.left * muzzleVelocity, ForceMode.VelocityChange);
-            nextFire = Time.time + fireRate;
+            ShootBullet();
         }
     }
+
+    void ShootBullet()
+    {
+        if (!reloading)
+        {
+            if (count > 0)
+            {
+                
+                var instance = Instantiate(bullet, shotSpawn.position,
+                    shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
+                count--;
+                count = Mathf.Clamp(count, 0, magazineSize);
+
+                instance.GetComponent<Rigidbody>()
+                    .AddRelativeForce(Vector3.left * muzzleVelocity, ForceMode.VelocityChange);
+                nextFire = Time.time + fireRate;
+            }
+            else
+            {
+                StartCoroutine("Reload");
+            }
+            TextChange();
+        }
+    }
+
+    IEnumerator Reload()
+    {
+        reloading = true;
+        yield return new WaitForSeconds(reloadTime);
+        count = magazineSize;
+        reloading = false;
+        TextChange();
+    }
+
+    public void TextChange()
+    {
+        GameManager.instance.currentClipCount = count;
+        GameManager.instance.currentMaxAmmo = magazineSize;
+    }
+
+
 }

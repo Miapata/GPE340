@@ -312,3 +312,5 @@ MonoBehaviour:
   muzzleVelocity: 51.77
   burstAmount: 4
   burst: 0
+  reloadTime: 2
+  magazineSize: 10

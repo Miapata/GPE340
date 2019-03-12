@@ -6,8 +6,9 @@ using UnityEngine.UI;
 using TMPro;
 public class Timer : MonoBehaviour
 {
-    public float seconds;
-    public float minutes;
+    public float countDownTime;
+    private float seconds;
+    private float minutes;
 
     public string timer;
     public TextMeshProUGUI textTime;
@@ -17,9 +18,9 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        seconds = Mathf.Clamp(seconds -= Time.deltaTime, 0, 60);
-        minutes = Mathf.Clamp(minutes -= Time.deltaTime, 0, 99);
-
+        seconds = Mathf.FloorToInt(seconds);
+        minutes = Mathf.FloorToInt(minutes);
+        countDownTime -= Time.deltaTime;
         FormatTime();
         textTime.text = timer;
 
@@ -28,8 +29,8 @@ public class Timer : MonoBehaviour
 
     void FormatTime()
     {
-        Mathf.Floor(minutes / 60).ToString("0");
-        Mathf.Floor(seconds % 60).ToString("0");
+        minutes = Mathf.Floor(countDownTime / 60);
+        seconds =Mathf.Floor(countDownTime - minutes * 60);
 
         timer = String.Format("{0}:{1}", minutes, seconds);
 
