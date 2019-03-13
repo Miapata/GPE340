@@ -18,13 +18,15 @@ public class M4 : MonoBehaviour
     public int magazineSize;
     private int count;
     private bool reloading;
+    private bool player;
     float nextFire;
     // Use this for initialization
     void Start()
     {
         count = magazineSize;
         TextChange();
-
+        if (transform.root.tag == "Player")
+            player = true;
         Pawn pawn = transform.parent.GetComponent<Pawn>();
         if (pawn != null)
         {
@@ -72,7 +74,7 @@ public class M4 : MonoBehaviour
         {
             if (count > 0)
             {
-                
+
                 var instance = Instantiate(bullet, shotSpawn.position,
                     shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
                 count--;
@@ -101,8 +103,11 @@ public class M4 : MonoBehaviour
 
     public void TextChange()
     {
-        GameManager.instance.currentClipCount = count;
-        GameManager.instance.currentMaxAmmo = magazineSize;
+        if (player)
+        {
+            GameManager.instance.currentClipCount = count;
+            GameManager.instance.currentMaxAmmo = magazineSize;
+        }
     }
 
 
