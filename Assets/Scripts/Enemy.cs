@@ -35,7 +35,11 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         //Jesus Christ Jesus Christ Jesus Christ 
+<<<<<<< HEAD
         if (navMeshAgent.isActiveAndEnabled == true&&navMeshAgent.isOnNavMesh)
+=======
+        if (navMeshAgent.isActiveAndEnabled == true&&isDead==false)
+>>>>>>> 9bbd4aa3c2d4ba6f03c85a8540acfb7393919455
         {
 
             navMeshAgent.SetDestination(target.transform.position);

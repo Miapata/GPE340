@@ -24,13 +24,16 @@ public class Timer : MonoBehaviour
         FormatTime();
         textTime.text = timer;
 
-
+        if (countDownTime <= 0)
+        {
+            GameManager.instance.winCanvas.SetActive(true);
+        }
     }
 
     void FormatTime()
     {
         minutes = Mathf.Floor(countDownTime / 60);
-        seconds =Mathf.Floor(countDownTime - minutes * 60);
+        seconds = Mathf.Floor(countDownTime - minutes * 60);
 
         timer = String.Format("{0}:{1}", minutes, seconds);
 

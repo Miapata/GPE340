@@ -7,7 +7,7 @@ using UnityEngine.Experimental.UIElements;
 using Object = System.Object;
 using Random = UnityEngine.Random;
 
-[CustomPropertyDrawer(typeof(WeightedObject))]
+
 public class DropController : MonoBehaviour
 {
     public List<WeightedObject> dropTable;
