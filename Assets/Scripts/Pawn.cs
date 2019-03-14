@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -27,6 +27,10 @@ public class Pawn : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9bbd4aa3c2d4ba6f03c85a8540acfb7393919455
 
         if (tag == "Player")
         {
@@ -149,16 +153,24 @@ public class Pawn : MonoBehaviour
             anim.SetTrigger("Jump");
         }
     }
-
     void Missle()
     {
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+        
+=======
+
+>>>>>>> 9bbd4aa3c2d4ba6f03c85a8540acfb7393919455
+>>>>>>> 5edcf099e632e69fc2f9e33d607cdcf7ac9e8f78
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             missileMode = true;
             Instantiate(GameManager.instance.missile, GameManager.instance.nukeTarget, GameManager.instance.missile.transform.rotation);
         }
     }
+<<<<<<< HEAD
 
     public void Pause()
     {
@@ -176,10 +188,33 @@ public class Pawn : MonoBehaviour
             GameManager.instance.mainMenuCanvas.SetActive(true);
         }
 
+=======
+    public void Pause()
+    {
+       
+            if (GameManager.instance.isPaused)
+            {
+                Time.timeScale = 1;
+                GameManager.instance.isPaused = false;
+                GameManager.instance.mainMenuCanvas.SetActive(false);
+            }
+            else
+            {
+                Time.timeScale = 0;
+                GameManager.instance.isPaused = true;
+                GameManager.instance.mainMenuCanvas.SetActive(true);
+            }
+        
+>>>>>>> 5edcf099e632e69fc2f9e33d607cdcf7ac9e8f78
     }
 
     public void Quit()
     {
         Application.Quit();
     }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 5edcf099e632e69fc2f9e33d607cdcf7ac9e8f78
 }

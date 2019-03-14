@@ -25,7 +25,14 @@ public class Health : MonoBehaviour
 
     public void OnDie()
     {
-        GetComponent<RagdollControls>().StartCoroutine("DieEffect");
+        if (!GetComponent<Pawn>().isPlayer)
+        {
+            GetComponent<RagdollControls>().StartCoroutine("DieEffect");
+            return;
+        }
+        GameManager.instance.loseCanvas.SetActive(true);
+
+        
     }
 
     public void OnSpawn()

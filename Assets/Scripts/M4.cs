@@ -20,8 +20,12 @@ public class M4 : MonoBehaviour
 
     private int count;
     private bool reloading;
+<<<<<<< HEAD
     private string tag;
     private Vector3 distance;
+=======
+    private bool player;
+>>>>>>> 9bbd4aa3c2d4ba6f03c85a8540acfb7393919455
     float nextFire;
     // Use this for initialization
     void Start()
@@ -29,7 +33,8 @@ public class M4 : MonoBehaviour
         tag = transform.root.tag;
         count = magazineSize;
         TextChange();
-
+        if (transform.root.tag == "Player")
+            player = true;
         Pawn pawn = transform.parent.GetComponent<Pawn>();
         if (pawn != null)
         {
@@ -118,8 +123,11 @@ public class M4 : MonoBehaviour
 
     public void TextChange()
     {
-        GameManager.instance.currentClipCount = count;
-        GameManager.instance.currentMaxAmmo = magazineSize;
+        if (player)
+        {
+            GameManager.instance.currentClipCount = count;
+            GameManager.instance.currentMaxAmmo = magazineSize;
+        }
     }
 
 

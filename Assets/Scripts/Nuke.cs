@@ -31,7 +31,9 @@ public class Nuke : MonoBehaviour
                 {
                     //If we are the player then we return
                     if (collider.tag == "Player")
-                        return;
+                        break;
+                    
+
 
                     explode = true;
                     if (collider.GetComponent<RagdollControls>() != null)
