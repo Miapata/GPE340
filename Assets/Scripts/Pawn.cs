@@ -27,8 +27,11 @@ public class Pawn : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-     
 
+        if (tag == "Player")
+        {
+            isPlayer = true;
+        }
         anim = GetComponent<Animator>();
         tf = GetComponent<Transform>();
 
@@ -145,7 +148,7 @@ public class Pawn : MonoBehaviour
 
     void Missle()
     {
-        ;
+        
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             missileMode = true;

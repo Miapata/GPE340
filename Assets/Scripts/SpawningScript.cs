@@ -7,15 +7,26 @@ public class SpawningScript : MonoBehaviour
     public GameObject enemy;
     public GameObject player;
     public Queue<GameObject> enemyList = new Queue<GameObject>();
-
+    public const int MAX_ZOMBIE_COUNT = 20;
+    public int zombiesToSpawn;
     public bool autoSpawn;
+
+    private int count;
+
+    private float spawnRate;
+
+    private float elapsedTime = 0;
+
+    private bool beingHandled;
     // Use this for initialization
     void Start()
     {
+        
         foreach (var item in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             enemyList.Enqueue(item);
         }
+        Invoke("NewWave", 2);
     }
 
     // Update is called once per frame
@@ -23,7 +34,7 @@ public class SpawningScript : MonoBehaviour
     {
         RemoveEnemy();
         Spawn();
-
+        elapsedTime += Time.deltaTime;
 
     }
 
@@ -44,7 +55,7 @@ public class SpawningScript : MonoBehaviour
         }
 
         if (autoSpawn)
-            print(enemyList.Count);
+
             if (enemyList.Count < 5)
             {
                 print("Spawned");
@@ -64,6 +75,35 @@ public class SpawningScript : MonoBehaviour
 
         }
     }
+
+    void StartWave()
+    {
+        if (beingHandled)
+            return;
+
+        if (count == 0)
+        {
+            StartCoroutine(NewWave());
+        }
+        if (enemyList.Count < zombiesToSpawn)
+            if (elapsedTime > spawnRate)
+            {
+                elapsedTime = 0;
+                SpawnEnemy();
+            }
+    }
+
+    IEnumerator NewWave()
+    {
+        beingHandled = true;
+        Ga
+        yield return new WaitForSeconds(3);
+
+        //
+        beingHandled = false;
+    }
+
+
 
 
 }

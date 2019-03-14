@@ -33,21 +33,21 @@ public class RagdollControls : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            ActivateRagdoll();
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            DeactivateRagdoll();
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        ActivateRagdoll();
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.O))
+    //    {
+    //        DeactivateRagdoll();
+    //    }
+    //}
 
     public void ActivateRagdoll()
     {
-        
+
         canvas.enabled = false;
         // Turn on all the child rigidbodies
         foreach (Rigidbody rb in partRigidbodies)
@@ -71,7 +71,7 @@ public class RagdollControls : MonoBehaviour
 
     public void DeactivateRagdoll()
     {
-       
+
         canvas.enabled = true;
         // Turn OFF the ragdoll colliders
         foreach (Collider col in partColliders)
@@ -94,12 +94,12 @@ public class RagdollControls : MonoBehaviour
     {
 
         ActivateRagdoll();
-        yield return new WaitForSeconds(Random.Range(5.0f,7.0f));
+        yield return new WaitForSeconds(Random.Range(5.0f, 7.0f));
         hips.transform.position = new Vector3(0, 0, 0);
 
         DeactivateRagdoll();
-        if(tag=="Enemy")
-        GetComponent<Enemy>().isDead = true;
+        if (tag == "Enemy")
+            GetComponent<Enemy>().isDead = true;
     }
 
 
