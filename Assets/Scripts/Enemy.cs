@@ -10,10 +10,10 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent navMeshAgent;
     public GameObject target;
     public Animator animator;
-
     public float speed;
     public bool isDead;
     public PickupsManager.Items equppiedItem;
+
     private Vector3 desiredVelocity;
     private Collider[] collisionCheck;
     private Health health;
@@ -35,42 +35,18 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         //Jesus Christ Jesus Christ Jesus Christ 
-        if (navMeshAgent.isActiveAndEnabled == true&&navMeshAgent.isOnNavMesh)
-        {
 
-            navMeshAgent.SetDestination(target.transform.position);
-        }
-        desiredVelocity = Vector3.MoveTowards(desiredVelocity, navMeshAgent.desiredVelocity, navMeshAgent.acceleration * Time.deltaTime);
-        Vector3 input = transform.InverseTransformDirection(desiredVelocity * speed);
-        animator.SetFloat("Horizontal", input.x);
-        animator.SetFloat("Vertical", input.z);
+        Movement();
+        Attack();
 
         if (isDead)
         {
-            health.health = 1;
-            healthEvents.OnSpawn.Invoke();
-            gameObject.SetActive(false);
-            Vector3 newPosition = new Vector3(Random.Range(-11, 7), 0, Random.Range(-11, 5));
-            collisionCheck = Physics.OverlapSphere(target.transform.position, 5);
-            foreach (var colliderObject in collisionCheck)
-            {
-                if (colliderObject.tag == "Player")
-                {
-                    Debug.Log("In player's radius");
-                    return;
-                }
-                else
-                {
-                    gameObject.transform.position = newPosition;
-                    gameObject.SetActive(true);
-                    isDead = false;
-                }
-            }
-
-
+            GameManager.instance.spawner.count--;
+            //
+            Destroy(gameObject);
 
         }
-        Attack();
+
     }
     //Jesus Christ
     private void OnAnimatorMove()
@@ -79,6 +55,40 @@ public class Enemy : MonoBehaviour
         navMeshAgent.velocity = animator.velocity;
     }
 
+    void Movement()
+    {
+        if (navMeshAgent.isActiveAndEnabled == true && navMeshAgent.isOnNavMesh)
+        {
+
+            navMeshAgent.SetDestination(target.transform.position);
+        }
+        desiredVelocity = Vector3.MoveTowards(desiredVelocity, navMeshAgent.desiredVelocity, navMeshAgent.acceleration * Time.deltaTime);
+        Vector3 input = transform.InverseTransformDirection(desiredVelocity * speed);
+        animator.SetFloat("Horizontal", input.x);
+        animator.SetFloat("Vertical", input.z);
+    }
+    void Respawn()
+    {
+        health.health = 1;
+        healthEvents.OnSpawn.Invoke();
+        gameObject.SetActive(false);
+        Vector3 newPosition = new Vector3(Random.Range(-11, 7), 0, Random.Range(-11, 5));
+        collisionCheck = Physics.OverlapSphere(target.transform.position, 5);
+        foreach (var colliderObject in collisionCheck)
+        {
+            if (colliderObject.tag == "Player")
+            {
+                Debug.Log("In player's radius");
+                return;
+            }
+            else
+            {
+                gameObject.transform.position = newPosition;
+                gameObject.SetActive(true);
+                isDead = false;
+            }
+        }
+    }
     void Attack()
     {
         if (GetComponent<FOV>() != null)
@@ -89,7 +99,7 @@ public class Enemy : MonoBehaviour
             switch (equppiedItem)
             {
                 case PickupsManager.Items.M4:
-                    
+
                     Fire();
                     break;
                 case PickupsManager.Items.Sword:

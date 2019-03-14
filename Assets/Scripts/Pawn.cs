@@ -45,6 +45,10 @@ public class Pawn : MonoBehaviour
             Jump();
             Run();
             Missle();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Pause();
+            }
         }
         else
         {
@@ -61,7 +65,7 @@ public class Pawn : MonoBehaviour
 
     public void RotateTowards(Vector3 targetPoint)
     {
-      
+
         Vector3 vectorToLookDown = targetPoint - tf.position;
         Quaternion lookRotation = Quaternion.LookRotation(vectorToLookDown, tf.up);
         tf.rotation = Quaternion.RotateTowards(tf.rotation, lookRotation, turnSpeed * Time.deltaTime);
@@ -148,11 +152,34 @@ public class Pawn : MonoBehaviour
 
     void Missle()
     {
-        
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             missileMode = true;
             Instantiate(GameManager.instance.missile, GameManager.instance.nukeTarget, GameManager.instance.missile.transform.rotation);
         }
+    }
+
+    public void Pause()
+    {
+
+        if (GameManager.instance.isPaused)
+        {
+            Time.timeScale = 1;
+            GameManager.instance.isPaused = false;
+            GameManager.instance.mainMenuCanvas.SetActive(false);
+        }
+        else
+        {
+            Time.timeScale = 0;
+            GameManager.instance.isPaused = true;
+            GameManager.instance.mainMenuCanvas.SetActive(true);
+        }
+
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

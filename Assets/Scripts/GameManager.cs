@@ -11,11 +11,14 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public TextMeshProUGUI magazineText;
     public TextMeshProUGUI waveText;
+    public SpawningScript spawner;
     public int currentMaxAmmo;
     public int currentClipCount;
-    public int currenRound;
+    public int currentRound;
     public Image reloadSprite;
     public Vector3 nukeTarget;
+    public GameObject mainMenuCanvas;
+    public bool isPaused;
     // Use this for initialization
     public static GameManager instance;
     void Awake()
