@@ -35,7 +35,7 @@ public class Timer : MonoBehaviour
         minutes = Mathf.Floor(countDownTime / 60);
         seconds = Mathf.Floor(countDownTime - minutes * 60);
 
-        timer = String.Format("{0}:{1}", minutes, seconds);
+        timer = String.Format("{0:00}:{1:00}", minutes, seconds);
 
     }
 

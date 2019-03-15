@@ -7,8 +7,8 @@ public class SpawningScript : MonoBehaviour
     public GameObject enemy;
     public GameObject player;
     public Queue<GameObject> enemyList = new Queue<GameObject>();
-    public const int MAX_ZOMBIE_COUNT = 20;
-    public int zombiesToSpawn=10;
+    public const int MAX_ZOMBIE_COUNT = 10;
+    public int zombiesToSpawn = 10;
     public bool autoSpawn;
     public float spawnRate;
 
@@ -20,7 +20,7 @@ public class SpawningScript : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        
+
         StartCoroutine("NewWave");
         foreach (var item in GameObject.FindGameObjectsWithTag("Enemy"))
         {
@@ -28,7 +28,7 @@ public class SpawningScript : MonoBehaviour
         }
 
         count = zombiesToSpawn;
-        
+
     }
 
     // Update is called once per frame
@@ -38,7 +38,7 @@ public class SpawningScript : MonoBehaviour
         Spawn();
         WaveLoop();
         elapsedTime += Time.deltaTime;
-       
+
     }
 
     void SpawnEnemy()
@@ -57,7 +57,7 @@ public class SpawningScript : MonoBehaviour
             SpawnEnemy();
         }
 
-   
+
     }
 
     void RemoveEnemy()
@@ -75,27 +75,36 @@ public class SpawningScript : MonoBehaviour
 
     void WaveLoop()
     {
-        if (beingHandled)
-            return;
-        
-        if (count == 0)
+
+        if (!beingHandled)
         {
-            StartCoroutine(RoundEnd());
-        }
-       else if (count > 0)
-            if (elapsedTime > spawnRate)
+            if (count == 0)
             {
-                elapsedTime = 0;
-                SpawnEnemy();
+                StartCoroutine(RoundEnd());
             }
+            else if (count > 0)
+            {
+                if (elapsedTime > spawnRate)
+                {
+
+                    if (enemyList.Count < MAX_ZOMBIE_COUNT&&enemyList.Count<zombiesToSpawn)
+                    {
+                        elapsedTime = 0;
+                        SpawnEnemy();
+                    }
+                }
+            }
+
+        }
     }
 
     IEnumerator NewWave()
     {
-       
-        beingHandled = true;
+
+
         GameManager.instance.currentRound++;
         zombiesToSpawn += 5;
+        count = zombiesToSpawn;
         GameManager.instance.waveText.gameObject.SetActive(true);
         GameManager.instance.waveText.text = "Wave Start\n" + GameManager.instance.currentRound;
         yield return new WaitForSeconds(3);
@@ -105,10 +114,11 @@ public class SpawningScript : MonoBehaviour
 
     IEnumerator RoundEnd()
     {
+        beingHandled = true;
         GameManager.instance.waveText.gameObject.SetActive(true);
         GameManager.instance.waveText.text = "Wave End";
         yield return new WaitForSeconds(2);
-        StartCoroutine("NewWave");
+        StartCoroutine(NewWave());
     }
 
 

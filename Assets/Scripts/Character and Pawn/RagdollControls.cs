@@ -100,6 +100,7 @@ public class RagdollControls : MonoBehaviour
         DeactivateRagdoll();
         if (tag == "Enemy")
             GetComponent<Enemy>().isDead = true;
+        GetComponent<Enemy>().count
     }
 
 
