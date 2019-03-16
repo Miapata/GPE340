@@ -5,8 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
-    public int PLAYER_BULLET_MASK = 12;
-    public int ENEMY_BULLET_MASK = 11;
+    public int IGNORE_LAYER = 11;
     public GameObject missile;
     public GameObject player;
     public TextMeshProUGUI magazineText;

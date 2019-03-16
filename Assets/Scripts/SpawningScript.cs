@@ -8,7 +8,9 @@ public class SpawningScript : MonoBehaviour
     public GameObject player;
     public Queue<GameObject> enemyList = new Queue<GameObject>();
     public const int MAX_ZOMBIE_COUNT = 10;
-    public int zombiesToSpawn = 10;
+    public int zombiesToSpawn;
+    public int zombieCountRound;
+    public int zombiesKilledinRound;
     public bool autoSpawn;
     public float spawnRate;
 
@@ -27,7 +29,7 @@ public class SpawningScript : MonoBehaviour
             enemyList.Enqueue(item);
         }
 
-        count = zombiesToSpawn;
+        
 
     }
 
@@ -47,6 +49,7 @@ public class SpawningScript : MonoBehaviour
         GameObject instance = Instantiate(enemy, new Vector3(Random.Range(-11, 7), enemy.transform.position.y, Random.Range(-11, 5)), Quaternion.identity);
         instance.GetComponent<Enemy>().target = player;
         enemyList.Enqueue(instance);
+        zombiesToSpawn--;
 
     }
 
@@ -54,6 +57,7 @@ public class SpawningScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+
             SpawnEnemy();
         }
 
@@ -75,25 +79,23 @@ public class SpawningScript : MonoBehaviour
 
     void WaveLoop()
     {
-
+       
         if (!beingHandled)
         {
-            if (count == 0)
+            if (count==zombieCountRound)
             {
                 StartCoroutine(RoundEnd());
             }
-            else if (count > 0)
+            if (elapsedTime > spawnRate)
             {
-                if (elapsedTime > spawnRate)
-                {
 
-                    if (enemyList.Count < MAX_ZOMBIE_COUNT&&enemyList.Count<zombiesToSpawn)
-                    {
-                        elapsedTime = 0;
-                        SpawnEnemy();
-                    }
+                if (zombiesToSpawn != 0)
+                {
+                    elapsedTime = 0;
+                    SpawnEnemy();
                 }
             }
+
 
         }
     }
@@ -103,8 +105,8 @@ public class SpawningScript : MonoBehaviour
 
 
         GameManager.instance.currentRound++;
-        zombiesToSpawn += 5;
-        count = zombiesToSpawn;
+        zombieCountRound += 5;
+        zombiesToSpawn = zombieCountRound;
         GameManager.instance.waveText.gameObject.SetActive(true);
         GameManager.instance.waveText.text = "Wave Start\n" + GameManager.instance.currentRound;
         yield return new WaitForSeconds(3);
@@ -115,6 +117,7 @@ public class SpawningScript : MonoBehaviour
     IEnumerator RoundEnd()
     {
         beingHandled = true;
+        count = 0;
         GameManager.instance.waveText.gameObject.SetActive(true);
         GameManager.instance.waveText.text = "Wave End";
         yield return new WaitForSeconds(2);

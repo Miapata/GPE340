@@ -15,7 +15,7 @@ public class M4 : MonoBehaviour
     public int burstAmount;
     public bool burst;
     public float reloadTime;
- // public float rotateSpeed;
+    // public float rotateSpeed;
     public int magazineSize;
 
     private int count;
@@ -51,18 +51,22 @@ public class M4 : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
 
-                RotateWeapon();
+                RotateWeapon(GameManager.instance.nukeTarget);
                 Fire();
 
 
             }
+            else if (tag == "Enemy")
+            {
+                RotateWeapon(GameManager.instance.player.transform.position);
+            }
     }
 
-    public void RotateWeapon()
+    public void RotateWeapon(Vector3 target)
     {
-        distance = (GameManager.instance.nukeTarget - transform.position);
+        distance = (target - transform.position);
         distance.y = 0;
-        transform.rotation=Quaternion.LookRotation(distance);
+        transform.rotation = Quaternion.LookRotation(distance);
     }
 
     public void Fire()
@@ -108,8 +112,11 @@ public class M4 : MonoBehaviour
 
     IEnumerator Reload()
     {
-        GameManager.instance.magazineText.enabled = false;
-        GameManager.instance.reloadSprite.gameObject.SetActive(true);
+        if (tag == "Player")
+        {
+            GameManager.instance.magazineText.enabled = false;
+            GameManager.instance.reloadSprite.gameObject.SetActive(true);
+        }
 
         reloading = true;
         yield return new WaitForSeconds(reloadTime);

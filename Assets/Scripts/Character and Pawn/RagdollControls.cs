@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +18,9 @@ public class RagdollControls : MonoBehaviour
     public List<Collider> partColliders;
     public Canvas canvas;
     public GameObject hips;
+
+
+
     // Use this for initialization
     void Start()
     {
@@ -47,8 +51,8 @@ public class RagdollControls : MonoBehaviour
 
     public void ActivateRagdoll()
     {
-
-        canvas.enabled = false;
+        if (tag == "Enemy")
+            canvas.enabled = false;
         // Turn on all the child rigidbodies
         foreach (Rigidbody rb in partRigidbodies)
         {
@@ -71,8 +75,8 @@ public class RagdollControls : MonoBehaviour
 
     public void DeactivateRagdoll()
     {
-
-        canvas.enabled = true;
+        if (tag == "Enemy")
+            canvas.enabled = true;
         // Turn OFF the ragdoll colliders
         foreach (Collider col in partColliders)
         {
@@ -84,23 +88,33 @@ public class RagdollControls : MonoBehaviour
             rb.isKinematic = true;
         }
         // Turn ON the main stuff
-        mainCollider.enabled = true;
-        mainRigidbody.isKinematic = false;
-        agent.enabled = true;
-        anim.enabled = true;
+     
     }
     //Jesus Christ 
     public IEnumerator DieEffect()
     {
 
         ActivateRagdoll();
+        if (tag == "Enemy")
+        {
+            gameObject.layer = GameManager.instance.IGNORE_LAYER;
+            GetComponent<Enemy>().isDead = true;
+        }
         yield return new WaitForSeconds(Random.Range(5.0f, 7.0f));
         hips.transform.position = new Vector3(0, 0, 0);
 
-        DeactivateRagdoll();
+        
         if (tag == "Enemy")
-            GetComponent<Enemy>().isDead = true;
-       
+        {
+            GameManager.instance.spawner.enemyList.Dequeue();
+            GetComponent<Enemy>().delete = true;
+           
+            
+            yield break;
+        }
+
+        DeactivateRagdoll();
+
     }
 
 

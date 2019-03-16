@@ -31,16 +31,18 @@ public class Nuke : MonoBehaviour
                 {
                     //If we are the player then we return
                     if (collider.tag == "Player")
-                        break;
-                    
+                        continue;
+
 
 
                     explode = true;
                     if (collider.GetComponent<RagdollControls>() != null)
                     {
-                        collider.GetComponent<RagdollControls>().StartCoroutine("DieEffect");
-                        collider.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position,
-                            explosionRadius, upwards);
+                        
+                            collider.GetComponent<Health>().OnDamage(1);
+                            collider.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position,
+                                explosionRadius, upwards);
+                       
                     }
                 }
 
@@ -52,7 +54,7 @@ public class Nuke : MonoBehaviour
         {
             landed = true;
             GameObject instance = Instantiate(nukeExplosion, transform.position, Quaternion.identity);
-            Destroy(gameObject,0.1f);
+            Destroy(gameObject, 0.1f);
         }
     }
 }

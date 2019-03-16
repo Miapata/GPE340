@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     public GameObject target;
     public Animator animator;
     public float speed;
+    public bool delete;
     public bool isDead;
     public PickupsManager.Items equppiedItem;
 
@@ -39,10 +40,8 @@ public class Enemy : MonoBehaviour
         Movement();
         Attack();
 
-        if (isDead)
+        if (delete)
         {
-            GameManager.instance.spawner.count--;
-            //
             Destroy(gameObject);
 
         }
@@ -101,6 +100,7 @@ public class Enemy : MonoBehaviour
                 case PickupsManager.Items.M4:
 
                     Fire();
+
                     break;
                 case PickupsManager.Items.Sword:
                     animator.Play("Attack_Sword");
@@ -115,4 +115,5 @@ public class Enemy : MonoBehaviour
     {
         pawn.equppiedItem.GetComponent<M4>().Fire();
     }
+
 }

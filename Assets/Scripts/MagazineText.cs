@@ -17,6 +17,7 @@ public class MagazineText : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+
         GameManager.instance.magazineText.text = String.Format("{0}/{1}", GameManager.instance.currentClipCount,
             GameManager.instance.currentMaxAmmo);
     }
