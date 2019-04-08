@@ -26,11 +26,11 @@ public class Health : MonoBehaviour
 
     public void OnDie()
     {
-        
+
         if (dead == true)
             return;
         dead = true;
-        if (!GetComponent<Pawn>().isPlayer)
+        if (tag == "Enemy")
         {
 
             GameManager.instance.spawner.count++;
@@ -45,8 +45,7 @@ public class Health : MonoBehaviour
 
     public void Instant()
     {
-        GameManager.instance.spawner.count++;
-        GetComponent<RagdollControls>().StartCoroutine("DieEffect");
+        OnDie();
     }
 
     public void OnSpawn()

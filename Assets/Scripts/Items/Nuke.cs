@@ -30,28 +30,31 @@ public class Nuke : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision != null)
+        print("Collision Detected!");
+        if (collision != null && explode == false)
         {
             landed = true;
             GameObject instance = Instantiate(nukeExplosion, transform.position, Quaternion.identity);
-            if (explode == false)
-                foreach (var collider in Physics.OverlapSphere(transform.position, explosionRadius))
+
+            foreach (var collider in Physics.OverlapSphere(transform.position, explosionRadius))
+            {
+                //If we are the player then we return
+                if (collider.tag != "Enemy")
+                    continue;
+
+
+                if (collider.GetComponent<RagdollControls>() != null)
                 {
-                    //If we are the player then we return
-                    if (collider.tag != "Enemy")
-                        continue;
 
-                    explode = true;
-                    if (collider.GetComponent<RagdollControls>() != null)
-                    {
-
-                        collider.GetComponent<Health>().Instant();
-                        collider.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position,
-                            explosionRadius, upwards);
-                    }
+                    collider.GetComponent<Health>().Instant();
+                    collider.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position,
+                        explosionRadius, upwards);
                 }
+            }
+            explode = true;
 
-            Destroy(gameObject);
+
         }
+        Destroy(gameObject);
     }
 }

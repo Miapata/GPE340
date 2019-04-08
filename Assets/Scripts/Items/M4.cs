@@ -115,7 +115,7 @@ public class M4 : MonoBehaviour
 
     IEnumerator Reload()
     {
-        if (tag == "Player")
+        if (player)
         {
             GameManager.instance.magazineText.enabled = false;
             GameManager.instance.reloadSprite.gameObject.SetActive(true);

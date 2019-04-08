@@ -28,7 +28,7 @@ public class Pawn : MonoBehaviour
     void Start()
     {
 
-        if (tag == "Player")
+        if (isPlayer)
         {
             audioSource = GetComponent<AudioSource>();
             isPlayer = true;
@@ -38,16 +38,6 @@ public class Pawn : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    private void LateUpdate()
-    {
-        if (!audioSource.isPlaying)
-            if (anim.velocity.x > 0.03 || anim.velocity.z > 0.03)
-            {
-
-                
-            }
-    }
     void Update()
     {
         if (isPlayer)
@@ -184,6 +174,7 @@ public class Pawn : MonoBehaviour
 
     public void PlayFootstep()
     {
+        if(isPlayer)
         audioSource.PlayOneShot(GameManager.instance.footStepSounds[Random.Range(0, GameManager.instance.footStepSounds.Count)]);
     }
 }
