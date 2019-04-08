@@ -58,7 +58,7 @@ public class RagdollControls : MonoBehaviour
         {
             rb.isKinematic = false;
         }
-        // Turn on all the child colliders 
+        // Turn on all the child coliders 
         foreach (Collider col in partColliders)
         {
             col.enabled = true;
@@ -70,6 +70,7 @@ public class RagdollControls : MonoBehaviour
         agent.enabled = false;
         mainCollider.enabled = true;
         mainRigidbody.isKinematic = false;
+
 
     }
 
@@ -88,32 +89,28 @@ public class RagdollControls : MonoBehaviour
             rb.isKinematic = true;
         }
         // Turn ON the main stuff
-     
+        mainCollider.enabled = true;
+        mainRigidbody.isKinematic = false;
+        agent.enabled = true;
+        anim.enabled = true;
     }
     //Jesus Christ 
     public IEnumerator DieEffect()
     {
 
-        ActivateRagdoll();
-        if (tag == "Enemy")
-        {
-            gameObject.layer = GameManager.instance.IGNORE_LAYER;
-            GetComponent<Enemy>().isDead = true;
-        }
-        yield return new WaitForSeconds(Random.Range(5.0f, 7.0f));
-        hips.transform.position = new Vector3(0, 0, 0);
 
-        
+        ActivateRagdoll();
+
+        yield return new WaitForSeconds(Random.Range(5.0f, 7.0f));
+
         if (tag == "Enemy")
         {
             GameManager.instance.spawner.enemyList.Dequeue();
             GetComponent<Enemy>().delete = true;
-           
-            
+
+
             yield break;
         }
-
-        DeactivateRagdoll();
 
     }
 

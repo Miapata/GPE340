@@ -38,6 +38,12 @@ public class Health : MonoBehaviour
         
     }
 
+    public void Instant()
+    {
+        GameManager.instance.spawner.count++;
+        GetComponent<RagdollControls>().StartCoroutine("DieEffect");
+    }
+
     public void OnSpawn()
     {
         GetComponent<Pawn>().healthbarImage.fillAmount = 1;

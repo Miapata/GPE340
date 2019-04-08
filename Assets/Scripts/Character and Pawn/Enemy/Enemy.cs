@@ -36,10 +36,11 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         //Jesus Christ Jesus Christ Jesus Christ 
-
-        Movement();
-        Attack();
-
+        if (!isDead)
+        {
+            Movement();
+            Attack();
+        }
         if (delete)
         {
             Destroy(gameObject);

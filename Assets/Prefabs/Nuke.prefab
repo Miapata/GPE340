@@ -316,9 +316,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nukeExplosion: {fileID: 1823824297632476, guid: 3de3d3242220ae847b2d2d1adbc9e110,
     type: 3}
-  explosionRadius: 100
-  explosionForce: 2000
-  upwards: 2000
+  explosionRadius: 500
+  explosionForce: 20000
+  upwards: 20000
 --- !u!135 &135346428585220712
 SphereCollider:
   m_ObjectHideFlags: 0

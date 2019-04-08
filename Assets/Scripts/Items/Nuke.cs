@@ -24,27 +24,7 @@ public class Nuke : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Check if the nuke has landed and if it has not yet exploded
-        if (landed == true)
-            if (explode == false)
-                foreach (var collider in Physics.OverlapSphere(transform.position, explosionRadius))
-                {
-                    //If we are the player then we return
-                    if (collider.tag == "Player")
-                        continue;
 
-
-
-                    explode = true;
-                    if (collider.GetComponent<RagdollControls>() != null)
-                    {
-                        
-                            collider.GetComponent<Health>().OnDamage(1);
-                            collider.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position,
-                                explosionRadius, upwards);
-                       
-                    }
-                }
 
     }
 
@@ -54,7 +34,24 @@ public class Nuke : MonoBehaviour
         {
             landed = true;
             GameObject instance = Instantiate(nukeExplosion, transform.position, Quaternion.identity);
-            Destroy(gameObject, 0.1f);
+            if (explode == false)
+                foreach (var collider in Physics.OverlapSphere(transform.position, explosionRadius))
+                {
+                    //If we are the player then we return
+                    if (collider.tag != "Enemy")
+                        continue;
+
+                    explode = true;
+                    if (collider.GetComponent<RagdollControls>() != null)
+                    {
+
+                        collider.GetComponent<Health>().Instant();
+                        collider.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position,
+                            explosionRadius, upwards);
+                    }
+                }
+
+            Destroy(gameObject);
         }
     }
 }
