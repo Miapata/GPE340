@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
     public GameObject loseCanvas;
     public GameObject winCanvas;
     public bool isPaused;
+    public AudioClip M4Sound;
+    public List<AudioClip> footStepSounds;
+
     // Use this for initialization
     public static GameManager instance;
     void Awake()
@@ -34,14 +37,5 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

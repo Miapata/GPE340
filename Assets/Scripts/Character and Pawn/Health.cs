@@ -5,6 +5,7 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public float health;
+    private bool dead;
     // Use this for initialization
     public void OnDamage(float damage)
     {
@@ -25,17 +26,21 @@ public class Health : MonoBehaviour
 
     public void OnDie()
     {
+        
+        if (dead == true)
+            return;
+        dead = true;
         if (!GetComponent<Pawn>().isPlayer)
         {
-            
+
             GameManager.instance.spawner.count++;
             GetComponent<RagdollControls>().StartCoroutine("DieEffect");
-            
             return;
+
         }
         GameManager.instance.loseCanvas.SetActive(true);
 
-        
+
     }
 
     public void Instant()

@@ -22,7 +22,7 @@ public class Pawn : MonoBehaviour
     public Image healthbarImage;
 
     public bool isPlayer;
-
+    private AudioSource audioSource;
     private bool missileMode;
     // Use this for initialization
     void Start()
@@ -30,6 +30,7 @@ public class Pawn : MonoBehaviour
 
         if (tag == "Player")
         {
+            audioSource = GetComponent<AudioSource>();
             isPlayer = true;
         }
         anim = GetComponent<Animator>();
@@ -38,12 +39,21 @@ public class Pawn : MonoBehaviour
     }
 
     // Update is called once per frame
+    private void LateUpdate()
+    {
+        if (!audioSource.isPlaying)
+            if (anim.velocity.x > 0.03 || anim.velocity.z > 0.03)
+            {
+
+                
+            }
+    }
     void Update()
     {
         if (isPlayer)
         {
             Jump();
-            Run();
+
             Missle();
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -61,6 +71,7 @@ public class Pawn : MonoBehaviour
     {
         anim.SetFloat("Vertical", direction.z * moveSpeed);
         anim.SetFloat("Horizontal", direction.x * moveSpeed);
+
     }
 
     public void RotateTowards(Vector3 targetPoint)
@@ -113,18 +124,6 @@ public class Pawn : MonoBehaviour
             // IK Weight is 1  -- use 100% IK data -- ignore the animation data!
             anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1.0f);
             anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1.0f);
-        }
-    }
-
-    void Run()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            anim.SetBool("Running", true);
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            anim.SetBool("Running", false);
         }
     }
 
@@ -181,5 +180,10 @@ public class Pawn : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void PlayFootstep()
+    {
+        audioSource.PlayOneShot(GameManager.instance.footStepSounds[Random.Range(0, GameManager.instance.footStepSounds.Count)]);
     }
 }

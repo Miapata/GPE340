@@ -25,10 +25,12 @@ public class M4 : MonoBehaviour
     private Vector3 distance;
 
     private bool player;
+    private AudioSource audioSource;
     float nextFire;
     // Use this for initialization
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         tag = transform.root.tag;
         count = magazineSize;
         TextChange();
@@ -95,6 +97,7 @@ public class M4 : MonoBehaviour
 
                 var instance = Instantiate(bullet, shotSpawn.position,
                     shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
+                audioSource.PlayOneShot(GameManager.instance.M4Sound);
                 count--;
                 count = Mathf.Clamp(count, 0, magazineSize);
 
