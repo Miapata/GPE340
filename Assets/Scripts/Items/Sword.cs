@@ -13,7 +13,7 @@ public class Sword : MonoBehaviour
         pawn = transform.root.GetComponent<Pawn>();
 
         if (tag == "Enemy")
-            ;ai = true;
+            ai = true;
     }
     // Update is called once per frame
     void Update()

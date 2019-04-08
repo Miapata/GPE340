@@ -4,25 +4,32 @@ using UnityEngine;
 
 public class M4 : MonoBehaviour
 {
-    public GameObject lHand;
-    public GameObject rHand;
-    public Transform shotSpawn;
-    public GameObject bullet;
+    // Public var
+    public GameObject lHand;    // Left hand point
+    public GameObject rHand;    // Right Hand Point
+    public Transform shotSpawn; // Shot spawn object
+    public GameObject bullet;   // bullet to spawn
     public float spread;
     public float fireRate;
     public float muzzleVelocity;
     public int burstAmount;
     public bool burst;
     public float reloadTime;
-
+    // public float rotateSpeed;
     public int magazineSize;
+
     private int count;
     private bool reloading;
+
+    private string tag;
+    private Vector3 distance;
+
     private bool player;
     float nextFire;
     // Use this for initialization
     void Start()
     {
+        tag = transform.root.tag;
         count = magazineSize;
         TextChange();
         if (transform.root.tag == "Player")
@@ -40,15 +47,26 @@ public class M4 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.root.tag == "Player")
+        if (tag == "Player")
             if (Input.GetMouseButton(0))
             {
 
-
+                RotateWeapon(GameManager.instance.nukeTarget);
                 Fire();
 
 
             }
+            else if (tag == "Enemy")
+            {
+                RotateWeapon(GameManager.instance.player.transform.position);
+            }
+    }
+
+    public void RotateWeapon(Vector3 target)
+    {
+        distance = (target - transform.position);
+        distance.y = 0;
+        transform.rotation = Quaternion.LookRotation(distance);
     }
 
     public void Fire()
@@ -94,9 +112,17 @@ public class M4 : MonoBehaviour
 
     IEnumerator Reload()
     {
+        if (tag == "Player")
+        {
+            GameManager.instance.magazineText.enabled = false;
+            GameManager.instance.reloadSprite.gameObject.SetActive(true);
+        }
+
         reloading = true;
         yield return new WaitForSeconds(reloadTime);
         count = magazineSize;
+        GameManager.instance.magazineText.enabled = true;
+        GameManager.instance.reloadSprite.gameObject.SetActive(false);
         reloading = false;
         TextChange();
     }

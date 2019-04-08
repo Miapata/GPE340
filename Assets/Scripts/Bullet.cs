@@ -9,21 +9,26 @@ public class Bullet : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
-        
+
         Destroy(gameObject, 1);
     }
 
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Player")
+        if (collider.tag == "Enemy" || collider.tag == "Player")
         {
-            if (collision.gameObject.GetComponent<RagdollControls>() == null)
+            if (collider.GetComponent<RagdollControls>() == null)
                 return;
+            if (collider.tag == "Enemy")
+                if (collider.GetComponent<Enemy>().isDead == true)
+                    return;
             print("Damaging enemy");
-            collision.gameObject.GetComponent<HealthEvents>().damage = 0.1f;
-            collision.gameObject.GetComponent<HealthEvents>().OnDamage.Invoke();
+            collider.GetComponent<HealthEvents>().damage = 0.1f;
+            collider.GetComponent<HealthEvents>().OnDamage.Invoke();
+
         }
+        
 
     }
 }

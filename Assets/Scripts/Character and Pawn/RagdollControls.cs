@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +18,9 @@ public class RagdollControls : MonoBehaviour
     public List<Collider> partColliders;
     public Canvas canvas;
     public GameObject hips;
+
+
+
     // Use this for initialization
     void Start()
     {
@@ -33,28 +37,28 @@ public class RagdollControls : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            ActivateRagdoll();
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            DeactivateRagdoll();
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        ActivateRagdoll();
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.O))
+    //    {
+    //        DeactivateRagdoll();
+    //    }
+    //}
 
     public void ActivateRagdoll()
     {
-        
-        canvas.enabled = false;
+        if (tag == "Enemy")
+            canvas.enabled = false;
         // Turn on all the child rigidbodies
         foreach (Rigidbody rb in partRigidbodies)
         {
             rb.isKinematic = false;
         }
-        // Turn on all the child colliders 
+        // Turn on all the child coliders 
         foreach (Collider col in partColliders)
         {
             col.enabled = true;
@@ -67,12 +71,13 @@ public class RagdollControls : MonoBehaviour
         mainCollider.enabled = true;
         mainRigidbody.isKinematic = false;
 
+
     }
 
     public void DeactivateRagdoll()
     {
-       
-        canvas.enabled = true;
+        if (tag == "Enemy")
+            canvas.enabled = true;
         // Turn OFF the ragdoll colliders
         foreach (Collider col in partColliders)
         {
@@ -93,13 +98,20 @@ public class RagdollControls : MonoBehaviour
     public IEnumerator DieEffect()
     {
 
-        ActivateRagdoll();
-        yield return new WaitForSeconds(Random.Range(5.0f,7.0f));
-        hips.transform.position = new Vector3(0, 0, 0);
 
-        DeactivateRagdoll();
-        if(tag=="Enemy")
-        GetComponent<Enemy>().isDead = true;
+        ActivateRagdoll();
+
+        yield return new WaitForSeconds(Random.Range(5.0f, 7.0f));
+
+        if (tag == "Enemy")
+        {
+            GameManager.instance.spawner.enemyList.Dequeue();
+            GetComponent<Enemy>().delete = true;
+
+
+            yield break;
+        }
+
     }
 
 

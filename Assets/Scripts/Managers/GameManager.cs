@@ -1,31 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
-    [Header("Bullet Masks")]
-    public int PLAYER_BULLET_MASK = 12;
-    public int ENEMY_BULLET_MASK = 11;
-    /// <summary>
-    /// Jesus Christ 
-    /// </summary>
-    [Header("Game Objects")]
+    public int IGNORE_LAYER = 11;
     public GameObject missile;
     public GameObject player;
-    public GameObject mainMenuCanvas;
-    public GameObject winCanvas;
-    public GameObject loseCanvas;
-    [Header("Text")]
     public TextMeshProUGUI magazineText;
-    [Header("Ammo Integers")]
+    public TextMeshProUGUI waveText;
+    public SpawningScript spawner;
     public int currentMaxAmmo;
     public int currentClipCount;
-    [Header("Pause Game")]
-    public bool isPaused;
-    [Header("Vectors")]
+    public int currentRound;
+    public Image reloadSprite;
     public Vector3 nukeTarget;
+    public GameObject mainMenuCanvas;
+    public GameObject loseCanvas;
+    public GameObject winCanvas;
+    public bool isPaused;
     // Use this for initialization
     public static GameManager instance;
     void Awake()
@@ -39,6 +33,7 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
     }
+
     void Start()
     {
 

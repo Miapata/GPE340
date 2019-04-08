@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -28,7 +28,10 @@ public class Pawn : MonoBehaviour
     void Start()
     {
 
-
+        if (tag == "Player")
+        {
+            isPlayer = true;
+        }
         anim = GetComponent<Animator>();
         tf = GetComponent<Transform>();
 
@@ -146,6 +149,7 @@ public class Pawn : MonoBehaviour
             anim.SetTrigger("Jump");
         }
     }
+
     void Missle()
     {
 
@@ -155,28 +159,27 @@ public class Pawn : MonoBehaviour
             Instantiate(GameManager.instance.missile, GameManager.instance.nukeTarget, GameManager.instance.missile.transform.rotation);
         }
     }
+
     public void Pause()
     {
-       
-            if (GameManager.instance.isPaused)
-            {
-                Time.timeScale = 1;
-                GameManager.instance.isPaused = false;
-                GameManager.instance.mainMenuCanvas.SetActive(false);
-            }
-            else
-            {
-                Time.timeScale = 0;
-                GameManager.instance.isPaused = true;
-                GameManager.instance.mainMenuCanvas.SetActive(true);
-            }
-        
+
+        if (GameManager.instance.isPaused)
+        {
+            Time.timeScale = 1;
+            GameManager.instance.isPaused = false;
+            GameManager.instance.mainMenuCanvas.SetActive(false);
+        }
+        else
+        {
+            Time.timeScale = 0;
+            GameManager.instance.isPaused = true;
+            GameManager.instance.mainMenuCanvas.SetActive(true);
+        }
+
     }
 
     public void Quit()
     {
         Application.Quit();
     }
-
-
 }
