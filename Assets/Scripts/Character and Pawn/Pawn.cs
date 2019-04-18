@@ -4,6 +4,8 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 public class Pawn : MonoBehaviour
 {
     public Animator anim;
@@ -169,12 +171,18 @@ public class Pawn : MonoBehaviour
 
     public void Quit()
     {
+#if (UNITY_EDITOR)
         Application.Quit();
+
+#endif
+
+        SceneManager.LoadScene("Main Menu");
+
     }
 
     public void PlayFootstep()
     {
-        if(isPlayer)
-        audioSource.PlayOneShot(GameManager.instance.footStepSounds[Random.Range(0, GameManager.instance.footStepSounds.Count)]);
+        if (isPlayer)
+            audioSource.PlayOneShot(GameManager.instance.footStepSounds[Random.Range(0, GameManager.instance.footStepSounds.Count)]);
     }
 }

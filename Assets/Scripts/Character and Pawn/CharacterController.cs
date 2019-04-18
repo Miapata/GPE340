@@ -17,6 +17,7 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         Rotation();
         Movement();
     }
@@ -38,7 +39,8 @@ public class CharacterController : MonoBehaviour
         // TEMP: Move a test object to that point
         GameManager.instance.nukeTarget = targetPoint + offset;
         testObject.position = GameManager.instance.nukeTarget;
-        //// Rotate to look at that point
+        // Rotate to look at that point
+        
         pawn.RotateTowards(targetPoint+offset);
     }
 

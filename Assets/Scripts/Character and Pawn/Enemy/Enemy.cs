@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     public bool delete;
     public bool isDead;
     public PickupsManager.Items equppiedItem;
-
+    public GameObject child1, child2;
     private Vector3 desiredVelocity;
     private Collider[] collisionCheck;
     private Health health;
@@ -24,18 +24,24 @@ public class Enemy : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        child1 = transform.GetChild(0).gameObject;
+        child2 = transform.GetChild(1).gameObject;
+        //Set the HealthEvents component
         healthEvents = GetComponent<HealthEvents>();
+        // Set the NavMeshAgent component
         navMeshAgent = GetComponent<NavMeshAgent>();
+        // Set the Animator component
         animator = GetComponent<Animator>();
+        // Set the Pawn component
         pawn = GetComponent<Pawn>();
-        //Get the health component
+        //Get the Health component
         health = GetComponent<Health>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Jesus Christ Jesus Christ Jesus Christ 
+        // If we are dead disable our movement and attack
         if (!isDead)
         {
             Movement();
@@ -51,7 +57,7 @@ public class Enemy : MonoBehaviour
     //Jesus Christ
     private void OnAnimatorMove()
     {
-
+        //Set our agent's velocity to the animator's velocity.
         navMeshAgent.velocity = animator.velocity;
     }
 

@@ -9,8 +9,10 @@ public class Health : MonoBehaviour
     // Use this for initialization
     public void OnDamage(float damage)
     {
+        
         if (health > 0)
         {
+            dead = false;
             health -= damage;
         }
         if (health <= 0)
@@ -35,10 +37,27 @@ public class Health : MonoBehaviour
 
             GameManager.instance.spawner.count++;
             GetComponent<RagdollControls>().StartCoroutine("DieEffect");
+          
+         
             return;
 
         }
-        GameManager.instance.loseCanvas.SetActive(true);
+        //If our lives are greater than zero
+        if (GameManager.instance.lives > 0)
+        {
+            // We subtract the lives by one
+            GameManager.instance.lives--;
+             // Set the text of the livesText to our lives
+            GameManager.instance.livesText.text = GameManager.instance.lives.ToString();
+        }
+        else
+        {
+            // Our loss canvas is then set to true
+            GameManager.instance.loseCanvas.SetActive(true);
+    
+        }
+
+        GetComponent<RagdollControls>().StartCoroutine("DieEffect");
 
 
     }

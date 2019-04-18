@@ -74,8 +74,20 @@ public class RagdollControls : MonoBehaviour
 
     }
 
+    // This deactivates the ragdoll effect
     public void DeactivateRagdoll()
     {
+        // If we are the player then we can respawn
+        if (tag == "Player")
+        {
+            float health = 1;
+            GetComponent<Health>().health = health;
+
+            // Health is set to 1
+
+            GetComponent<Pawn>().healthbarImage.fillAmount = health;
+        }
+
         if (tag == "Enemy")
             canvas.enabled = true;
         // Turn OFF the ragdoll colliders
@@ -98,18 +110,28 @@ public class RagdollControls : MonoBehaviour
     public IEnumerator DieEffect()
     {
 
-
+        // Activate the ragdoll effect
         ActivateRagdoll();
-
+        // Wait for a random range of seconds
         yield return new WaitForSeconds(Random.Range(5.0f, 7.0f));
 
+        //If we are the enemy
         if (tag == "Enemy")
         {
+            // Dequeue from our list
             GameManager.instance.spawner.enemyList.Dequeue();
+            // Set delete to true
             GetComponent<Enemy>().delete = true;
 
 
             yield break;
+        }
+
+        //If we ware the player
+        if (tag == "Player")
+        {
+            // Deactivate the ragdoll
+            DeactivateRagdoll();
         }
 
     }

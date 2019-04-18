@@ -13,20 +13,16 @@ public class Nuke : MonoBehaviour
     public float upwards;
 
     private bool landed;
+    private AudioSource audioSource;
 
     private bool explode;
     // Use this for initialization
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         transform.position += Vector3.up * 10;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-
-    }
 
     public void OnCollisionEnter(Collision collision)
     {
@@ -35,7 +31,7 @@ public class Nuke : MonoBehaviour
         {
             landed = true;
             GameObject instance = Instantiate(nukeExplosion, transform.position, Quaternion.identity);
-
+            AudioSource.PlayClipAtPoint(GameManager.instance.nukeSound,transform.position);
             foreach (var collider in Physics.OverlapSphere(transform.position, explosionRadius))
             {
                 //If we are the player then we return
@@ -50,11 +46,14 @@ public class Nuke : MonoBehaviour
                     collider.GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position,
                         explosionRadius, upwards);
                 }
+                // Change the layer to the ignore layer
+                
             }
             explode = true;
 
 
         }
+        
         Destroy(gameObject);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class M4 : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class M4 : MonoBehaviour
     public GameObject rHand;    // Right Hand Point
     public Transform shotSpawn; // Shot spawn object
     public GameObject bullet;   // bullet to spawn
+    public GameObject muzzleFlare;
     public float spread;
     public float fireRate;
     public float muzzleVelocity;
@@ -23,13 +26,16 @@ public class M4 : MonoBehaviour
 
     private string tag;
     private Vector3 distance;
-
+    private bool isFlaring;
     private bool player;
     private AudioSource audioSource;
+    public Sprite weapon;
     float nextFire;
     // Use this for initialization
     void Start()
     {
+        GameManager.instance.weaponDisplay.sprite = weapon;
+        GameManager.instance.weaponDisplay.color = Color.white;
         audioSource = GetComponent<AudioSource>();
         tag = transform.root.tag;
         count = magazineSize;
@@ -47,21 +53,19 @@ public class M4 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (tag == "Player")
-            if (Input.GetMouseButton(0))
-            {
+            RotateWeapon(GameManager.instance.nukeTarget);
+        if (Input.GetMouseButton(0))
+        {
+            Fire();
 
-                RotateWeapon(GameManager.instance.nukeTarget);
-                Fire();
-
-
-            }
-            else if (tag == "Enemy")
-            {
-                RotateWeapon(GameManager.instance.player.transform.position);
-            }
+        }
+        else if (tag == "Enemy")
+        {
+            RotateWeapon(GameManager.instance.player.transform.position);
+        }
     }
 
     public void RotateWeapon(Vector3 target)
@@ -97,6 +101,10 @@ public class M4 : MonoBehaviour
 
                 var instance = Instantiate(bullet, shotSpawn.position,
                     shotSpawn.rotation * Quaternion.Euler(Random.onUnitSphere * spread));
+                if (!isFlaring)
+                {
+                    StartCoroutine(MuzzleFlare());
+                }
                 audioSource.PlayOneShot(GameManager.instance.M4Sound);
                 count--;
                 count = Mathf.Clamp(count, 0, magazineSize);
@@ -115,6 +123,11 @@ public class M4 : MonoBehaviour
 
     IEnumerator Reload()
     {
+        //Play the reload sound
+
+        //Assign the AudioMixerGroup to AudioSource (Use first index)
+        //audioSource.outputAudioMixerGroup = GameManager.instance.audioMixGroup[0];
+        audioSource.PlayOneShot(GameManager.instance.reloadSound);
         if (player)
         {
             GameManager.instance.magazineText.enabled = false;
@@ -130,6 +143,17 @@ public class M4 : MonoBehaviour
         TextChange();
     }
 
+    IEnumerator MuzzleFlare()
+    {
+        Vector3 euler = transform.eulerAngles;
+        euler.z = Random.Range(0, 360);
+        muzzleFlare.transform.eulerAngles = euler;
+        isFlaring = true;
+        muzzleFlare.SetActive(true);
+        yield return new WaitForSeconds(fireRate);
+        muzzleFlare.SetActive(false);
+        isFlaring = false;
+    }
     public void TextChange()
     {
         if (player)
