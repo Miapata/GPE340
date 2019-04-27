@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.Audio;
+using Random = System.Random;
 
 namespace DigitalRuby.RainMaker
 {
@@ -52,7 +53,8 @@ namespace DigitalRuby.RainMaker
 
         [Tooltip("Wind looping clip")]
         public AudioClip WindSound;
-
+       
+        public List<AudioClip> ThunderSounds = new List<AudioClip>();
         [Tooltip("Wind sound volume modifier, use this to lower your sound if it's too loud.")]
         public float WindSoundVolumeModifier = 0.5f;
 
@@ -68,6 +70,8 @@ namespace DigitalRuby.RainMaker
         [Tooltip("Whether wind should be enabled.")]
         public bool EnableWind = true;
 
+        public Light thunderLight;
+
         protected LoopingAudioSource audioSourceRainLight;
         protected LoopingAudioSource audioSourceRainMedium;
         protected LoopingAudioSource audioSourceRainHeavy;
@@ -77,6 +81,7 @@ namespace DigitalRuby.RainMaker
         protected Material rainExplosionMaterial;
         protected Material rainMistMaterial;
 
+        private float nextThunderTime;
         private float lastRainIntensityValue = -1.0f;
         private float nextWindTime;
 
@@ -287,6 +292,11 @@ namespace DigitalRuby.RainMaker
 
             CheckForRainChange();
             UpdateWind();
+            if (nextThunderTime < Time.time)
+            {
+                StartCoroutine(Thunder());
+                nextThunderTime = Time.time + UnityEngine.Random.Range(2, 9);
+            }
             audioSourceRainLight.Update();
             audioSourceRainMedium.Update();
             audioSourceRainHeavy.Update();
@@ -309,6 +319,28 @@ namespace DigitalRuby.RainMaker
                 return true;
             }
         }
+
+        public IEnumerator Thunder()
+        {
+            bool multipleStrikes = Convert.ToBoolean(UnityEngine.Random.Range(0, 2));
+            print(multipleStrikes);
+            yield return new WaitForSeconds(UnityEngine.Random.Range(3, 9));
+
+            thunderLight.gameObject.SetActive(true);
+           
+            yield return new WaitForSeconds(UnityEngine.Random.Range(0.5f, 0.8f));
+            thunderLight.gameObject.SetActive(false);
+            if (multipleStrikes)
+            {
+                for (int i = 0; i < UnityEngine.Random.Range(2, 4); i++)
+                {
+                    thunderLight.gameObject.SetActive(true);
+                    yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.15f));
+                    thunderLight.gameObject.SetActive(false);
+                }
+            }
+
+        }
     }
 
     /// <summary>
@@ -318,7 +350,7 @@ namespace DigitalRuby.RainMaker
     {
         public AudioSource AudioSource { get; private set; }
         public float TargetVolume { get; private set; }
-
+        
         public LoopingAudioSource(MonoBehaviour script, AudioClip clip, AudioMixerGroup mixer)
         {
             AudioSource = script.gameObject.AddComponent<AudioSource>();
@@ -327,7 +359,7 @@ namespace DigitalRuby.RainMaker
             {
                 AudioSource.outputAudioMixerGroup = mixer;
             }
-
+            
             AudioSource.loop = true;
             AudioSource.clip = clip;
             AudioSource.playOnAwake = false;
@@ -358,5 +390,6 @@ namespace DigitalRuby.RainMaker
                 AudioSource.Stop();
             }
         }
+
     }
 }
